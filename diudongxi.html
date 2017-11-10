@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
+	<title>沟通交流模块</title>
+    <script src="bootstrap/js/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+	<style type="text/css">
+    .row{
+        overflow: hidden;
+    }
+    .div_img{
+        width: 80%;
+        margin:0 auto;
+        background: #fff;
+        padding: 5px;
+    }
+    img{
+        width: 100%;
+        overflow: hidden;
+    }
+    </style>
+</head>
+<body>
+<div class="container" >
+    <div class="row">
+        <div class="col-xs-10"><h2 class="name">name</h2></div>
+        <div class="col-xs-10"><p class="text">text</p></div>
+        <div class="col-xs-10"><p class="connect">connect</p></div>
+    </div> 
+    <div class="row">
+        <div class="div_img" >
+            <img src="">
+        </div>
+    </div>    
+</div>
+</div>
+	<script>
+    $(function(){
+        var url = location.search;
+        var id = url.substring(1,url.length);
+        $.post(
+        "diudongxi.php",
+        {
+            id:id
+        }, 
+        function (data, textStatus){
+            console.log(data);
+            $('.name').text(data[0]);
+            $('.text').text(data[1]);
+            $('.connect').text(data[2]);
+            if(data[3]){
+               $('img').attr('src',"upload/"+data[3]); 
+            }
+            else{
+        		$('img').attr('src',"upload/nofind.jpg");
+            }
+        },
+        "json");
+    })
+	</script>
+</body>
+</html>

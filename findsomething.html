@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
+	<title>沟通交流模块</title>
+    <script src="bootstrap/js/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+	<style type="text/css">
+    .row1{
+        overflow: hidden;
+        height: 130px;
+        margin:1px;
+        border-radius: 6px; 
+        background: #fff;
+        margin-bottom:10px;
+    }
+    .div_img{
+        float: right;
+        width: 130px;
+        height: 100%;
+        background: #fff;
+        padding: 5px;
+    }
+    .img0{
+        display: block;
+        overflow: hidden;
+    }
+    .information{
+        float: left;
+        height: 130px;  
+        padding-top: 5px;
+        padding: 5px;
+
+    }
+    .information h4{
+        font-size:22px;
+        padding-left:10px; 
+    }
+    .information p{
+        font-size:16px;
+        padding-left:10px; 
+    }
+    .on{
+        background:#5bc0de;
+        border-radius: 3px;
+        color:#fff;  
+    }
+    .nav{
+        background:#fff;
+        padding:5px; 
+        text-align:center;
+        margin:1px;
+        margin-bottom:10px;
+        border-radius: 4px;
+    }
+    .nav .li{
+        padding:2px;
+        font-size: 15px;
+        border-radius: 3px;  
+    }
+    </style>
+</head>
+<body style="background:#ddd">
+<div class="container"> 
+    
+    <div class="row" style="margin-top:15px;margin-bottom:12px;">
+        <div class="col-xs-8" style="padding-right:0px">
+            <input  type="text" class="form-control" placeholder="搜索">
+        </div>
+        <div class="col-xs-4">
+            <button  class="btn btn-info">搜索</button>
+        </div> 
+    </div>
+    <div class="row nav">
+        <div class="col-xs-6 li on" id="pick"><b>捡到物品</b></div>
+        <div class="col-xs-6 li" id="loss"><b>丢失物品</b></div>
+    </div>
+    <div id="wa">
+    </div>  
+</div>
+	<script>
+$(function(){
+    //这是图片处理，把图片，过长的文字处理
+    function chuli(){
+        $('.information').width($('.row1').width()-140);
+    // 如果图片宽大于高，宽度铺满高度自动；反之高度铺满，宽度自动
+        for(var i = 0;i < $('.img0').length;i++){
+            if($('.img0').eq(i).width()>$('.img0').eq(i).height()){
+                var top = $('.div_img').eq(i).height() - $('.img0').eq(i).height();
+                $('.img0').eq(i).css("margin-top",top/2);
+            }
+            else{
+                $('.img0').eq(i).css({"margin":"0 auto"});
+            }
+              //当文字说明过长时，适当的裁剪 多余的用省略号表示
+            var discribtion = $(".discribtion").eq(i).text();
+            var name = $(".name").eq(i).text();
+            if(discribtion.length > 17){
+                discribtion = discribtion.substring(0,16) + "...";
+                $(".discribtion").eq(i).html(discribtion); 
+            }
+            if(name.length > 7){
+                name = name.substring(0,6) + "...";
+                $(".name").eq(i).html(name); 
+            }
+        }
+      
+        $('.row1').click(function(){
+            console.log($(this).find('span').html(),"this");
+            var id = $(this).find('span').html();
+            window.location.href='diudongxi.html?'+id;
+        })
+    }
+    //toggle 
+    $('#pick').click(function(){
+        if(!$(this).attr('class').match('on')){
+            $(this).addClass('on');
+            $('#loss').removeClass('on');
+            $('#wa').html("");
+            insertDiv('pick');
+        }
+    })
+    $('#loss').click(function(){
+        if(!$(this).attr('class').match('on')){
+            $(this).addClass('on');
+            $('#pick').removeClass('on');
+            $('#wa').html("");
+            insertDiv('loss');
+        }
+    })
+        //传入数据，保存在dataArr里面
+    function ajax(){
+        $.post(
+        "find.php", 
+        function (data, textStatus){
+            console.log(data,"data");
+            callback(data);
+        },
+        "json");
+    };
+    ajax();
+    var dataArr = null;
+    function callback(data){
+        dataArr = data;
+        console.log(dataArr,"dataArr");
+        insertDiv('pick');//默认加载捡到物品
+        sousuo();
+    }
+    //根据选择的是捡到物品还是丢失物品去插入
+    function insertDiv(pickorloss){
+        for(var i = 0;i <dataArr.length;i++){
+            if(dataArr[i].pickorloss === pickorloss){
+                createDiv(dataArr[i]);
+            }
+        }
+        setTimeout(chuli,100);            
+    }
+    //插入div
+    function createDiv(dataObj){
+        //if(!dataObj.image){
+        //    dataObj.image ='nofind.jpg';
+        //}
+        var newDiv = '<div class="row row1"><div class="div_img" ><img class= "img0" src="upload_resize/';
+        console.log(dataObj.name);
+        newDiv = newDiv+dataObj.image+'"></div>';
+        newDiv = newDiv+'<div class="information"><h4 ><b class="name">';
+        newDiv = newDiv+dataObj.name+'</b></h4><p class="discribtion">';
+        newDiv = newDiv+dataObj.text+'</p><span style="display:none">';
+        newDiv = newDiv+dataObj.id+'</span></div></div>';
+        $('#wa').append(newDiv);
+    }
+    //搜索功能模块
+    function sousuo(){
+        $('button').click(function(){
+            if($('input').val()){
+                $('#wa').html('');
+                var val = $('input').val();
+                var pickorloss = 'loss';
+                if($('#pick').attr('class').match('on')){
+                    pickorloss = 'pick';
+                }
+                for(var i = 0;i <dataArr.length;i++){
+                    if((dataArr[i].name.match(val) !==null || dataArr[i].text.match(val) !==null) && dataArr[i].pickorloss === pickorloss){
+                        createDiv(dataArr[i]);
+                    }
+                }
+                setTimeout(chuli,100); 
+            }
+        })
+    }
+})
+	</script>
+</body>
+</html>

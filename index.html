@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
+	<title>沟通交流模块</title>
+     <script src="bootstrap/js/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+	<style type="text/css">
+    .row{
+        margin-top:40px;
+        text-align: center; 
+    }
+    .mag{
+        margin-top:160px;
+        text-align: center; 
+    }
+
+    .col-xs-12{
+        text-align: center;
+        color: #ffcc00;
+        font-size: 32px;
+        font-weight: 600;
+    }
+    .bt-lg{
+        display: block;
+        margin:0px auto; 
+        margin-top:20px; 
+        padding:5px 25px ;
+        font-size: 32px;
+        font-weight: 600px;
+    }
+    .icon{
+        padding-top:5px;
+        padding-right:5px;
+        font-size: 32px;
+        display: block;
+        float: left;
+    }
+    .zan{
+        display: block;
+        width: 32px; 
+    }
+    .tousu{
+        padding-top:5px;
+        display: block;
+        width: 32px; 
+    }
+    </style>
+</head>
+<body>
+<div class="container" > 
+        <div class="row mag">
+        <a href="find.html">
+            <button class="btn btn-success bt-lg"><span class="icon">
+                <img class="zan" src="icon/zan.png"></span>我要上传</button>
+        </a>
+        <a href="findsomething.html">
+            <button class="btn btn-danger bt-lg"><span class="icon">
+                <img class="tousu" src="icon/tousu.png">
+            </span>看看别人</button>
+        </a>
+        </div>
+<button id="button0">番茄专用</button>
+</div>
+	<script>
+/*
+
+    <div class="row">
+            <div class="col-xs-12">荔 园 巴 巴</div>
+        </div>
+     <button class="btn btn-success ">success</button>   <!-- action success warning success danger info-->
+    <button class="btn   btn-link">link</button> <!--lg -sm -xs-->
+    <button class="btn  btn-lg ">large</button> <!--lg -sm -xs-->
+    <button class="btn  btn-block ">btn-block</button> <!--lbtn-block-->
+    <button class="btn btn-info" disabled="disabled">disabled</button> 	
+     var height4=$(window).height();
+        var width4=$(window).width();
+        var div0 = document.getElementsByTagName('div')[0];
+        var div1 = document.getElementsByTagName('div')[1];
+        div0.style.width = width4+'px';
+        div0.style.height = height4+'px';
+        console.log("ww",div0.style.width);
+        console.log("hh",div0.style.height);
+        console.log("<br/>网页可见区域高度",height4);
+        console.log("<br/>网页可见区域宽度",width4);
+        div1.style.left = width4*0.3122+'px';
+        div1.style.top = height4*0.40+'px';
+ 		var d =div1.offsetLeft+'px';
+      	console.log("left",div1.style.left);
+        console.log("top",div1.style.top);
+*/
+document.getElementById('button0').onclick = function(){
+        window.location.href='find.php';
+    }
+	</script>
+</body>
+</html>

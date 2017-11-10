@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
+    <title>失物招领</title>
+    <script src="bootstrap/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="bootstrap/js/fileinput.js"></script> 
+    <script type="text/javascript" src="bootstrap/js/zh.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/css/fileinput.css">
+    <style type="text/css">
+    .red{
+        color:red;
+    }
+    </style>
+</head>
+<body>
+<div class="container">  <!--enctype="multipart/form-data"上传图片时必须的-->  
+    <form style="margin-top:20px;" method="post" action="jian.php" id="formHead" enctype="multipart/form-data">
+        <fieldset>
+            <legend> 捡到/丢失 东西</legend>
+            <div style="margin-bottom:12px;">
+                <label><span class="red">* </span>捡到/丢失  &nbsp;&nbsp;</label>
+                <label class="radio-inline">
+                    <input type="radio" name="something" id="pickSomething" value="pick" checked> 
+                    <b>捡到物品</b>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="something" id="lossSomething"  value="loss">
+                     <b>丢失物品</b>
+                </label>
+            </div>
+            <div class="form-group">
+                <label><span class="red">* </span>捡到/丢失 物品的名称</label>
+                <input name = "name" type="text" class="form-control" placeholder="名称"
+               >
+            </div>
+            <div class="form-group">
+                <label><span class="red">* </span>描述</label>
+                <textarea name="text" class="form-control" rows="3" 
+                placeholder="物品 捡到/丢失 时间，地点，颜色等" ></textarea>
+            </div>
+              <div class="form-group">
+                <label><span class="red">* </span>联系方式</label>
+                <input name="connect" type="text" class="form-control" placeholder="手机、微信等">
+            </div>
+            <div class="form-group">
+             <label>图片上传</label>
+                <span style="font-size:14px;"> 
+                <input id="fileFile" name="fileFile" class="file-loading" type="file"> 
+             
+            <!--multiple表示允许同时上传多个文件，class=“file-loading”表示标签的样式。这里很重要，如果class="file"，则中文化不能生效-->
+                <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过5.0M</p>
+                </span>
+                <!--打开图片  capture="camera"这是打开摄像头-->
+            </div>
+            <button type="submit" class="btn btn-default">发送</button>
+        </fieldset>
+    </form>
+</div>
+
+    <script>
+
+$(function(){
+
+        function initFileInput(ctrlName, uploadUrl) { 
+        var control = $('#' + ctrlName); 
+        control.fileinput({ 
+        resizeImage : true, 
+        maxImageWidth : 200, 
+        maxImageHeight : 200, 
+        resizePreference : 'width', 
+        language : 'zh', //设置语言 
+        uploadUrl : uploadUrl, 
+        uploadAsync : true, 
+        showUpload:true,
+        showCancel:true,
+        showClose:true,
+        allowedFileExtensions : [ 'jpg', 'png', 'gif' ],//接收的文件后缀 
+        showUpload : false, //是否显示上传按钮 
+        showCaption : false,//是否显示标题 
+        showPreview:true,//是否显示预览区域
+     //   showUpload：false,
+        browseClass : "btn btn-primary", //按钮样式 
+  //     previewFileIcon : "<i class='glyphicon glyphicon-king'></i>", 
+        maxFileCount : 5, 
+        msgFilesTooMany : "选择图片超过了最大数量", 
+        maxFileSize : 5000,
+        dropZoneEnabled:false,
+        dropZoneTitleClass:"this", 
+        fileActionSettings:{//预览图样式
+            showRemove: true,
+            showUpload: false,
+            showZoom: false,
+            showDrag: false,
+        }
+      }); 
+    }; 
+   //初始化控件initFileInput(id,uploadurl)控件id，与上传路径 
+    initFileInput("fileFile", "/upload");
+})
+    </script>
+</body>
+</html>
